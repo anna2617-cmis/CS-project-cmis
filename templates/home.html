@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>NotePad</title>
-    <link href="index.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-   <header>
-     <h1>Home Page</h1>
-   </header>
-   <nav>
-     
-   </nav>
-   <main>
-     
-   </main>
-   <footer>
-     
-   </footer>
-  </body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+ <h1>Home Page</h1>
+   {% for planner in planners%} <!-- for loop -- > 
+        <h1>{{ planner.subject }}</h1> 
+        <!-- print out variables; . access can be used-->
+        <h3>What to do: {{planner.content }} </h3>
+        <p>Due on {{ planner.due_date }}</p>
+   {% endfor %}
+{% endblock content %}
