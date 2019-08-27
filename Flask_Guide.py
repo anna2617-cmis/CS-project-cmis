@@ -1,32 +1,34 @@
-from flask import Flask, render_template 
+from flask import Flask, render_template, redirect, url_for, request
 app = Flask(__name__) # variable 
 
-planners = [
-    {
-        'due_date': 'A day',
-        'reminder_time': 'D day', 
-        'subject': 'Chemistry', 
-        'content': 'work book'
-    }, 
-    {
-        'due_date': 'A day',
-        'reminder_time': 'D day', 
-        'subject': 'English', 
-        'content': 'essay'
-    }
+@app.route('/admin') # route() used to bind URL to a function ; instance of the class 
+def hello_world():
+    return 'hello world' 
+#app.add_url_rule('/', 'hello',hello_world) another way to bind url 
 
-]
-@app.route('/') # route() used to bind URL to a function 
-@app.route('/home') 
-# @app.route('/<name>')
+
+@app.route('/hello/<guest>') 
 # variables can be added to pass the parameter, in thsi case, it will be <name>
 # ex: %s ' %'variable name' 
-def home():
-   return  render_template('home.html', planners = planners)#html source code 
+def hello_guest(guest):
+    return 'Hello %s as Guest!' % guest
+    #return  render_template('home.html', planners = planners)#html source code 
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title = 'Anna')
+@app.route('/user/<name>')
+def hello_user(name): 
+    if name == 'admin': 
+        return redirect(url_for('hello_world')) #redirects the url 
+    else: 
+        return redirect(url_for('hello_guest', guest = name))
+
+@app.route('/login', methods = ['POST', 'GET'])
+def login(): 
+    if request.method == 'POST': 
+        user = request.form['nm']
+        return redirect(url_for('hello_guest', guest = user))
+    else: 
+        user = request.args.get('nm')
+        return redirect(url_for('hello_guest', guest = user))
 
 if __name__ == '__main__':
    app.run(debug = True) # runs the app on particular development server 
