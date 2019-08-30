@@ -11,7 +11,7 @@ def hello_world():
 # variables can be added to pass the parameter, in thsi case, it will be <name>
 # ex: %s ' %'variable name' 
 def hello_guest(guest):
-    return 'Hello %s as Guest!' % guest
+    return render_template('hello.html', name = guest)
     #return  render_template('home.html', planners = planners)#html source code 
 
 @app.route('/user/<name>')
