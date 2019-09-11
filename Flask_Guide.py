@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, make_response 
 app = Flask(__name__) # variable 
 
 @app.route('/admin') # route() used to bind URL to a function ; instance of the class 
@@ -34,6 +34,25 @@ def login():
 def result():
    dict = {'phy':50,'che':60,'maths':70}
    return render_template('result.html', result = dict)
+
+@app.route('/cookie')
+def index():
+   return render_template('index.html')
+
+@app.route('/setcookie', methods = ['POST', 'GET'])
+def setcookie():
+   if request.method == 'POST':
+        user = request.form['nm']
+   
+   resp = make_response(render_template('readcookie.html'))
+   resp.set_cookie('userID', user)
+   
+   return resp
+
+@app.route('/getcookie')
+def getcookie():
+   name = request.cookies.get('userID')
+   return '<h1>welcome '+name+'</h1>'
 
 if __name__ == '__main__':
    app.run(debug = True) # runs the app on particular development server 
